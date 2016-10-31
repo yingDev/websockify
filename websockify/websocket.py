@@ -447,13 +447,13 @@ class WebSocketRequestHandler(SimpleHTTPRequestHandler):
             key = h['Sec-WebSocket-Key']
 
             # Choose binary if client supports it
-            if 'binary' in protocols:
-                self.base64 = False
-            elif 'base64' in protocols:
-                self.base64 = True
-            else:
-                self.send_error(400, "Client must support 'binary' or 'base64' protocol")
-                return False
+            # if 'binary' in protocols:
+            self.base64 = False
+            # elif 'base64' in protocols:
+            #    self.base64 = True
+            #else:
+            #    self.send_error(400, "Client must support 'binary' or 'base64' protocol")
+            #    return False
 
             # Generate the hash value for the accept header
             accept = b64encode(sha1(s2b(key + self.GUID)).digest())
@@ -462,10 +462,10 @@ class WebSocketRequestHandler(SimpleHTTPRequestHandler):
             self.send_header("Upgrade", "websocket")
             self.send_header("Connection", "Upgrade")
             self.send_header("Sec-WebSocket-Accept", b2s(accept))
-            if self.base64:
-                self.send_header("Sec-WebSocket-Protocol", "base64")
-            else:
-                self.send_header("Sec-WebSocket-Protocol", "binary")
+            #if self.base64:
+            #    self.send_header("Sec-WebSocket-Protocol", "base64")
+            #else:
+            #    self.send_header("Sec-WebSocket-Protocol", "binary")
             self.end_headers()
             return True
         else:
